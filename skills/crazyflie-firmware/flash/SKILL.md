@@ -24,7 +24,13 @@ If not found, ask the user before installing:
 
 `cfcli` is stateless — each command connects independently. The selected URI is saved in local settings and reused automatically.
 
-Scan for available Crazyflies:
+If the Crazyflie is connected via USB, select it directly:
+
+```bash
+cfcli select --from-usb
+```
+
+Scan for available Crazyflies over radio:
 
 ```bash
 cfcli scan
