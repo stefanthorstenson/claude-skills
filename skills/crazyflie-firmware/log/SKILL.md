@@ -15,22 +15,21 @@ Log variables are read-only sensor data and internal state streamed at a configu
 
 ```bash
 # List all available variables
-crazyflie-agent-cli log list
+cfcli log list
 
-# Stream specific variables at 10 Hz (data appears in the session output file)
-crazyflie-agent-cli log start stateEstimate.roll stateEstimate.pitch pm.vbat --rate 10
+# Stream specific variables at 10 Hz (period = 100 ms); Ctrl+C to stop
+cfcli log print stateEstimate.roll,stateEstimate.pitch,pm.vbat --period 100
 
-# Read the streamed data
-grep "\[log " /tmp/cf-output.log | tail -10
-
-# Stop streaming
-crazyflie-agent-cli log stop
+# Stream with CSV output for scripting
+cfcli --csv log print stateEstimate.roll,stateEstimate.pitch,pm.vbat --period 100
 ```
 
-A session must be running to stream log data. If none is active:
+`cfcli log print` connects, streams directly to stdout, and disconnects on Ctrl+C. No background session is needed.
+
+To use a specific URI:
 
 ```bash
-crazyflie-agent-cli start <URI> > /tmp/cf-output.log 2>&1 &
+cfcli -u radio://0/80/2M/E7E7E7E7E7 log print stateEstimate.roll --period 100
 ```
 
 ## Adding Log Variables to Firmware
@@ -47,7 +46,7 @@ LOG_GROUP_START(myModule)
 LOG_GROUP_STOP(myModule)
 ```
 
-After building and flashing, `myModule.myVar` appears in `log list`.
+After building and flashing, `myModule.myVar` appears in `cfcli log list`.
 
 Available types: `LOG_UINT8`, `LOG_UINT16`, `LOG_UINT32`, `LOG_INT8`, `LOG_INT16`, `LOG_INT32`, `LOG_FLOAT`, `LOG_FP16`.
 

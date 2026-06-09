@@ -15,19 +15,25 @@ Parameters are runtime-configurable values organized as `group.name`.
 
 ```bash
 # List all parameters with current values
-crazyflie-agent-cli param list
+cfcli param list
 
 # Read a single parameter
-crazyflie-agent-cli param get pid_rate.kp
+cfcli param get pid_rate.kp
 
 # Write a parameter
-crazyflie-agent-cli param set pid_rate.kp 50
+cfcli param set pid_rate.kp 50
+
+# Persist a parameter value to EEPROM (survives reboot)
+cfcli param store pid_rate.kp
+
+# Revert a stored parameter to firmware default
+cfcli param clear pid_rate.kp
 ```
 
-A session must be running. If none is active:
+`cfcli` connects per-command — no background session is needed. To use a specific URI:
 
 ```bash
-crazyflie-agent-cli start <URI> > /tmp/cf-output.log 2>&1 &
+cfcli -u radio://0/80/2M/E7E7E7E7E7 param set pid_rate.kp 50
 ```
 
 ## Adding Parameters to Firmware

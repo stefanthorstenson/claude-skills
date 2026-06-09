@@ -45,10 +45,10 @@ Key subsystems:
 
 The firmware might have crashed before the radio stack initialized. This is the most dangerous failure mode because you lose radio access.
 
-1. Run `crazyflie-agent-cli recover`
-2. If the CLI can still reach the Crazyflie, it will reset it to bootloader mode
+1. Run `cfcli platform reboot`
+2. If the CLI can still reach the Crazyflie, it will reboot it back to firmware
 3. If not, ask the user to manually put it in bootloader mode: turn it off, hold the power button for 3 seconds until the blue LEDs start blinking
-4. Once in bootloader mode, flash a known-good firmware with `--cold`
+4. Once in bootloader mode, flash a known-good firmware with `cfcli bootload flash --bin stm32-fw=known-good.bin --cold`
 
 ### Avoiding radio-bricking
 

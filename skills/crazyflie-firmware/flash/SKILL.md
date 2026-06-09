@@ -14,79 +14,93 @@ description: >
 Verify the CLI is available:
 
 ```bash
-which crazyflie-agent-cli
+which cfcli
 ```
 
 If not found, ask the user before installing:
-> "I need `crazyflie-agent-cli` to flash the Crazyflie. It can be installed with `cargo install --git https://github.com/ataffanel/crazyflie-agent-cli`. Want me to install it?"
+> "I need `cfcli` to flash the Crazyflie. It can be installed with `cargo install cfcli`. Want me to install it?"
 
-Ask for the radio URI if unknown (e.g. `radio://0/80/2M/E7E7E7E7E7`). If unsure, scan:
+## URI Management
+
+`cfcli` is stateless — each command connects independently. The selected URI is saved in local settings and reused automatically.
+
+Scan for available Crazyflies:
 
 ```bash
-crazyflie-agent-cli scan
+cfcli scan
+```
+
+Select and save a URI for future commands (interactive):
+
+```bash
+cfcli select
+```
+
+To override the saved URI for a single command, use `-u`:
+
+```bash
+cfcli -u radio://0/80/2M/E7E7E7E7E7 <command>
 ```
 
 Always prefer a URI the user provides over scan results — radio leakage can cause scan to pick up adjacent channels.
 
-## Session Management
+## Console Output
 
-Keep a session running to see console output and log data:
+View the Crazyflie's console (CRTP console log):
 
 ```bash
-crazyflie-agent-cli start <URI> > /tmp/cf-output.log 2>&1 &
+cfcli console
 ```
 
-Check output:
+To preserve console output across multiple connections, pass `-p` as a global flag to any command. The saved output is printed the next time `cfcli console` is run:
 
 ```bash
-grep "\[console\]" /tmp/cf-output.log | tail -20
-grep "\[error\]" /tmp/cf-output.log
-```
-
-Stop the session:
-
-```bash
-crazyflie-agent-cli stop
+cfcli -p bootload flash --bin stm32-fw=build/cf2.bin
+cfcli console   # shows console output captured during and after flash
 ```
 
 ## Flashing
 
-The flash command stops any running session, reboots into bootloader, flashes, then reboots:
+Flash a local firmware binary to the STM32 target:
 
 ```bash
-crazyflie-agent-cli flash build/cf2.bin --uri radio://0/80/2M/E7E7E7E7E7
+cfcli bootload flash --bin stm32-fw=build/cf2.bin
 ```
 
-After flashing, restart the session:
+With an explicit URI:
 
 ```bash
-crazyflie-agent-cli start <URI> > /tmp/cf-output.log 2>&1 &
+cfcli -u radio://0/80/2M/E7E7E7E7E7 bootload flash --bin stm32-fw=build/cf2.bin
 ```
 
-If the Crazyflie is already in bootloader mode:
+If the Crazyflie is already in bootloader mode (cold boot):
 
 ```bash
-crazyflie-agent-cli flash build/cf2.bin --cold
+cfcli bootload flash --bin stm32-fw=build/cf2.bin --cold
 ```
 
 Reboot without flashing:
 
 ```bash
-crazyflie-agent-cli reset --uri <URI>
+cfcli platform reboot
 ```
 
 ## Recovery
 
-If the Crazyflie is unresponsive after a flash:
+If the Crazyflie is unresponsive after a flash, try rebooting it:
 
 ```bash
-crazyflie-agent-cli recover
+cfcli platform reboot
 ```
 
 If the CLI cannot reach it, ask the user:
 > "The Crazyflie appears to be unresponsive over radio. Could you please put it in bootloader mode? Turn it off, then hold the power button for about 3 seconds until the blue LEDs start blinking. Let me know when it's ready."
 
-Then flash a known-good firmware with `--cold`.
+Then flash a known-good firmware with `--cold`:
+
+```bash
+cfcli bootload flash --bin stm32-fw=known-good.bin --cold
+```
 
 For radio-critical files to avoid and full troubleshooting guidance, read:
 `${CLAUDE_PLUGIN_ROOT}/skills/crazyflie-firmware/shared/reference.md`
