@@ -26,16 +26,6 @@ make menuconfig       # Interactive config menu
 # or edit .config directly
 ```
 
-## Toolchain Check
-
-Before building, verify the ARM toolchain is available:
-
-```bash
-which arm-none-eabi-gcc
-```
-
-If missing, it must be installed (e.g. `sudo apt install gcc-arm-none-eabi` on Ubuntu).
-
 If submodules are missing:
 
 ```bash
