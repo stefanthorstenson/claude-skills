@@ -89,4 +89,4 @@ If the CLI cannot reach it, ask the user:
 Then flash a known-good firmware with `--cold`.
 
 For radio-critical files to avoid and full troubleshooting guidance, read:
-`${CLAUDE_PLUGIN_ROOT}/skills/firmware/shared/reference.md`
+`${CLAUDE_PLUGIN_ROOT}/skills/crazyflie-firmware/shared/reference.md`

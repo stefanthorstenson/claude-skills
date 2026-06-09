@@ -54,4 +54,4 @@ Available types: `LOG_UINT8`, `LOG_UINT16`, `LOG_UINT32`, `LOG_INT8`, `LOG_INT16
 ## Reference
 
 For a table of commonly useful log variables and firmware architecture, read:
-`${CLAUDE_PLUGIN_ROOT}/skills/firmware/shared/reference.md`
+`${CLAUDE_PLUGIN_ROOT}/skills/crazyflie-firmware/shared/reference.md`
