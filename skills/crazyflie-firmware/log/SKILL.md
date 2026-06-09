@@ -1,10 +1,11 @@
 ---
 name: crazyflie-firmware-log
 description: >
-  Use this skill when streaming log variables from a Crazyflie, adding new
-  log variables to firmware, or inspecting sensor and state data over radio.
-  Triggers on tasks like "log the roll angle", "stream sensor data", "add a
-  log variable", "what is the battery voltage", or "LOG_GROUP".
+  Use this skill when streaming log variables using cfcli, or adding new log
+  variables to Crazyflie firmware C code. Triggers on tasks like "what cfcli
+  command streams roll", "add a log variable to firmware", "LOG_GROUP", or
+  "what is the battery voltage". For Python scripting, use the crazyflie-lib
+  skill instead.
 ---
 
 # Crazyflie Log Variables
