@@ -99,4 +99,4 @@ Each file defines one log block:
 ## Reference
 
 For a table of commonly useful log variables and firmware architecture, read:
-`${CLAUDE_PLUGIN_ROOT}/skills/crazyflie-firmware/shared/reference.md`
+`../shared/reference.md`

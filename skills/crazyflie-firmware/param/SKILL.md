@@ -61,4 +61,4 @@ Available types: `PARAM_UINT8`, `PARAM_UINT16`, `PARAM_UINT32`, `PARAM_INT8`, `P
 ## Reference
 
 For a table of commonly useful parameters and firmware architecture, read:
-`${CLAUDE_PLUGIN_ROOT}/skills/crazyflie-firmware/shared/reference.md`
+`../shared/reference.md`

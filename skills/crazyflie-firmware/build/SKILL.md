@@ -35,4 +35,4 @@ git submodule update --init --recursive
 ## Reference
 
 For firmware architecture and directory layout, read:
-`${CLAUDE_PLUGIN_ROOT}/skills/crazyflie-firmware/shared/reference.md`
+`../shared/reference.md`

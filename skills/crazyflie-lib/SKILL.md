@@ -70,7 +70,7 @@ value = await param.get("stabilizer.estimator")
 await param.set("stabilizer.estimator", 1)
 ```
 
-See `${CLAUDE_PLUGIN_ROOT}/skills/crazyflie-firmware/shared/reference.md` for commonly useful log variables and parameters.
+See `../crazyflie-firmware/shared/reference.md` for commonly useful log variables and parameters.
 
 ## Project Conventions
 
