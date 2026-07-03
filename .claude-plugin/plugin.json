@@ -14,6 +14,9 @@
     "./skills/crazyflie-firmware/flash",
     "./skills/crazyflie-firmware/log",
     "./skills/crazyflie-firmware/param",
-    "./skills/crazyflie-lib"
+    "./skills/crazyflie-lib",
+    "./skills/crazyflie-docs",
+    "./skills/owl-streamer",
+    "./skills/camera-deck"
   ]
 }

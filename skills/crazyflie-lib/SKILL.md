@@ -18,7 +18,8 @@ The lib lives at `~/code/bitcraze/crazyflie-lib-python-v2`. Examples are in `exa
 ## Connection
 
 ```python
-from cflib2 import Crazyflie, LinkContext, FileTocCache
+from cflib2 import Crazyflie, LinkContext
+from cflib2.toc_cache import FileTocCache
 
 context = LinkContext()
 cache = FileTocCache("/tmp/cf_toc_cache")  # omit for no caching
@@ -55,6 +56,8 @@ finally:
 `data.data` is a `dict[str, float|int]` keyed by variable name. `data.timestamp` is milliseconds (Crazyflie clock).
 
 `stream.stop()` returns the `LogBlock` so it can be restarted with a different period.
+
+**Block size limit: 26 bytes.** F32 = 4 bytes, I16 = 2 bytes. Exceeding the limit raises `LogError: Error appending variable to block: 7`. Split variables across multiple blocks and drain them concurrently.
 
 ## Param API
 

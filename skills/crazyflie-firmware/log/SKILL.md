@@ -1,11 +1,12 @@
 ---
 name: crazyflie-firmware-log
 description: >
-  Use this skill when streaming log variables using cfcli, or adding new log
-  variables to Crazyflie firmware C code. Triggers on tasks like "what cfcli
-  command streams roll", "add a log variable to firmware", "LOG_GROUP", or
-  "what is the battery voltage". For Python scripting, use the crazyflie-lib
-  skill instead.
+  Use this skill when streaming log variables using cfcli, adding new log
+  variables to Crazyflie firmware C code, or creating cfclient log block JSON
+  config files. Triggers on tasks like "what cfcli command streams roll",
+  "add a log variable to firmware", "LOG_GROUP", "what is the battery voltage",
+  or "create a log block". For Python scripting, use the crazyflie-lib skill
+  instead.
 ---
 
 # Crazyflie Log Variables
@@ -50,6 +51,50 @@ LOG_GROUP_STOP(myModule)
 After building and flashing, `myModule.myVar` appears in `cfcli log list`.
 
 Available types: `LOG_UINT8`, `LOG_UINT16`, `LOG_UINT32`, `LOG_INT8`, `LOG_INT16`, `LOG_INT32`, `LOG_FLOAT`, `LOG_FP16`.
+
+## Log Block Size Limit
+
+Each log block is limited to **26 bytes** of payload per CRTP packet. Variable sizes:
+
+| Type | Bytes |
+|------|-------|
+| `LOG_FLOAT` / `LOG_INT32` / `LOG_UINT32` | 4 |
+| `LOG_INT16` / `LOG_UINT16` / `LOG_FP16` | 2 |
+| `LOG_INT8` / `LOG_UINT8` | 1 |
+
+A block with 6 floats uses 24 bytes (fits). 7 floats = 28 bytes (does not fit — split across two blocks).
+
+## cfclient Log Block JSON Files
+
+cfclient loads log block configs from `~/.config/cfclient/log/`. Two subdirectories:
+- `local_synced/` — general reusable blocks
+- `project_specific/` — project-specific blocks
+
+Each file defines one log block:
+
+```json
+{
+  "logconfig": {
+    "logblock": {
+      "name": "my_block",
+      "period": 100,
+      "variables": [
+        {
+          "name": "stateEstimate.x",
+          "stored_as": "",
+          "fetch_as": "float",
+          "type": "TOC"
+        }
+      ]
+    }
+  }
+}
+```
+
+- `period` is in milliseconds (100 = 10 Hz)
+- `fetch_as` matches the firmware type: `float`, `uint8_t`, `uint16_t`, `int32_t`, etc.
+- `stored_as` is typically left as `""` (fetch from TOC)
+- `type` is always `"TOC"` for firmware log variables
 
 ## Reference
 

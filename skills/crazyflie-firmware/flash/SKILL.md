@@ -20,6 +20,22 @@ which cfcli
 If not found, ask the user before installing:
 > "I need `cfcli` to flash the Crazyflie. It can be installed with `cargo install cfcli`. Want me to install it?"
 
+## URI Registry
+
+A CSV registry of known Crazyflies is at `/home/stefan/projects/crazyflie-uris.csv`. Columns: `Address` (full `radio://` URI), `Type` (platform type), `Notes` (free-text description).
+
+When the user identifies a Crazyflie by address suffix (e.g. `FACECAFE01`) or by description (e.g. `Brushless`), read the CSV and match against all columns to resolve the full URI and Type. Use that URI with `-u` for all commands. If no match is found, tell the user and fall back to scan.
+
+### Type → Binary mapping
+
+Use the firmware binary from `build/` based on the `Type` column:
+
+| Type                 | Binary          |
+|----------------------|-----------------|
+| Crazyflie 2.0        | `cf2.bin`       |
+| Crazyflie 2.1        | `cf2.bin`       |
+| Crazyflie Brushless  | `cf21bl.bin`    |
+
 ## URI Management
 
 `cfcli` is stateless — each command connects independently. The selected URI is saved in local settings and reused automatically.
